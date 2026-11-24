@@ -134,7 +134,7 @@ For now they are constants at the top of `hooks/bouncer.py`. Turn the plugin off
 ```
 hooks/           bouncer.py (the whole plugin) and hooks.json
 tests/check.py   logic checks against fake events, no model call (--live: three real triages)
-assets/          banner, mascot and README visuals
+assets/          banner, mascot, README visuals and the maker's stamp
   mascot.py      draws the mascot in every pose
   readme.py      builds stickers.svg, flow.svg and the animated demo.svg, fonts embedded
   fonts/         Bricolage Grotesque and JetBrains Mono, with their OFL licenses
@@ -161,6 +161,6 @@ python3 assets/readme.py          # rebuilds the README visuals
 <br>
 
 <p align="center">
-  <img src="assets/icon.svg" width="110" alt="bouncer"><br>
+  <img src="assets/jouanique-industries.webp" width="320" alt="Jouanique Industries"><br>
   <sub>Code and drawings made with the help of Claude (AI).</sub>
 </p>
