@@ -1,0 +1,35 @@
+[
+  {"id": "constraint-python", "task": "Refactor the payment module", "file": "payment.py", "message": "stay on Python 3.9, no match/case", "urgent": true, "note": "none"},
+  {"id": "stop-db", "task": "Clean up the migrations folder", "file": "migrations/0042_auto.py", "message": "stop, don't touch the database", "urgent": true, "note": "none"},
+  {"id": "fr-wrong-file", "task": "Corrige le calcul de TVA dans la facture", "file": "invoice/totals.py", "message": "arrête, c'est pas le bon fichier", "urgent": true, "note": "none"},
+  {"id": "pytest", "task": "Write tests for the parser", "file": "tests/test_parser.py", "message": "use pytest, not unittest", "urgent": true, "note": "none"},
+  {"id": "env-var", "task": "Wire the Stripe client into checkout", "file": "checkout/stripe_client.py", "message": "the env var is STRIPE_KEY, not STRIPE_SECRET", "urgent": true, "note": "none"},
+  {"id": "fr-english-names", "task": "Renomme les fonctions du module export pour qu'elles soient plus claires", "file": "export.py", "message": "non, garde les noms de variables en anglais", "urgent": true, "note": "none"},
+  {"id": "answer-docs", "task": "Add a --dry-run flag to the deploy script", "file": "deploy.sh", "last": "Flag added. Should I also update the docs?", "message": "yes, update the docs too", "urgent": true, "note": "none"},
+  {"id": "tests-path", "task": "Fix the failing date tests", "file": "src/dates.py", "message": "wait, the tests are in tests/unit, not test/", "urgent": true, "note": "none"},
+  {"id": "fr-typescript", "task": "Écris un script qui convertit les CSV en JSON", "file": "convert.py", "message": "plutôt en TypeScript stp", "urgent": true, "note": "none"},
+  {"id": "no-commit", "task": "Refactor the auth middleware", "file": "middleware/auth.js", "message": "don't commit anything, I'll review first", "urgent": true, "note": "none"},
+  {"id": "generated-file", "task": "Change the API base URL", "file": "src/api/client.gen.ts", "message": "careful, that file is generated, edit the template instead", "urgent": true, "note": "none"},
+  {"id": "fr-go-on", "task": "Ajoute la pagination à la liste des commandes", "file": "orders/list.tsx", "message": "c'est bon pour moi, continue comme ça", "urgent": true, "note": "none"},
+
+  {"id": "capital", "task": "Refactor the payment module", "file": "payment.py", "message": "what's the capital of Australia?", "urgent": false, "note": "none"},
+  {"id": "fr-login-bug", "task": "Refactorise le module de paiement", "file": "payment.py", "message": "après ça, tu pourras regarder le bug du login ?", "urgent": false, "note": "none"},
+  {"id": "changelog-tomorrow", "task": "Fix the failing date tests", "file": "src/dates.py", "message": "remind me to update the changelog tomorrow", "urgent": false, "note": "none"},
+  {"id": "fr-let-const", "task": "Refactorise le module de paiement en Python", "file": "payment.py", "message": "c'est quoi la différence entre let et const en JS ?", "urgent": false, "note": "none"},
+  {"id": "summary-later", "task": "Migrate the cron jobs to the new scheduler", "file": "jobs/schedule.yaml", "message": "when you're done, write a short summary for the team", "urgent": false, "note": "none"},
+  {"id": "rust-book", "task": "Add caching to the search endpoint", "file": "search/views.py", "message": "unrelated: can you recommend a good book on Rust?", "urgent": false, "note": "none"},
+  {"id": "next-billing", "task": "Finish the invoices export", "file": "invoices/export.py", "message": "next we'll tackle the billing module", "urgent": false, "note": "none"},
+  {"id": "fr-meeting", "task": "Ajoute la pagination à la liste des commandes", "file": "orders/list.tsx", "message": "j'ai une réunion à 15h, on fera le point après", "urgent": false, "note": "none"},
+
+  {"id": "fr-not-what-i-wanted", "task": "Écris un script Python fizzbuzz.py de 1 à 30", "file": "fizzbuzz.py", "message": "c'est pas vraiment ce que je voulais", "urgent": true, "note": "ambiguous"},
+  {"id": "fr-didnt-think", "task": "Refactorise le module de paiement", "file": "payment.py", "message": "j'ai l'impression qu'il a pas trop réfléchi", "urgent": true, "note": "ambiguous"},
+  {"id": "are-you-sure", "task": "Remove the deprecated endpoints", "file": "api/routes.py", "message": "hmm, are you sure?", "urgent": true, "note": "ambiguous"},
+  {"id": "the-other-one", "task": "Update the logo in the header", "file": "components/Header.tsx", "message": "no, the other one", "urgent": true, "note": "ambiguous"},
+
+  {"id": "csv-accents", "task": "Fix the CSV export", "file": "reports/export_csv.py", "message": "Excel opens it with weird accents", "urgent": true, "note": "any"},
+
+  {"id": "drop-capital", "task": "Refactor the payment module", "file": "payment.py", "held": ["what's the capital of Australia?"], "message": "forget my question about Australia", "urgent": false, "note": "none", "drop": [1]},
+  {"id": "fr-drop-login", "task": "Refactorise le module de paiement", "file": "payment.py", "held": ["après ça, regarde le bug du login"], "message": "finalement laisse tomber le bug du login", "urgent": false, "note": "none", "drop": [1]},
+  {"id": "attach-summary", "task": "Migrate the cron jobs to the new scheduler", "file": "jobs/schedule.yaml", "held": ["when you're done, write a short summary for the team"], "message": "and write it in French please", "urgent": false, "note": "any", "drop": []},
+  {"id": "held-but-urgent", "task": "Refactor the payment module", "file": "payment.py", "held": ["what's the capital of Australia?"], "message": "stay on Python 3.9", "urgent": true, "note": "none", "drop": []}
+]

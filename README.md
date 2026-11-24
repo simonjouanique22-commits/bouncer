@@ -73,10 +73,25 @@
   <img src="assets/flow.svg" width="100%" alt="1. You type while Claude works. 2. bouncer takes a look: Claude Haiku reads your message next to the task. 3. If it changes the task, it gets in right away; if it can wait, it waits in line and is handed over when the task is done.">
 </p>
 
-- **In, right away** if it changes the work in progress: a correction, a constraint, a detail, an answer to Claude, a request to stop or change course. A short note goes with it only when the link to the task is not obvious.
-- **The line** if it can wait for the end: a separate task, an unrelated question, an idea for later.
-- **In, when in doubt.** An ambiguous message gets in, with a note that lists the possible readings instead of picking one.
+- **In, right away** if it changes the work in progress: a correction, a constraint, a detail, an answer to Claude, a request to stop or change course, a “looks good, carry on”. A short note goes with it only when Claude could misread it otherwise.
+- **The line** if it can wait for the end: a separate task, an unrelated question, an idea for later, a follow-up to a message already waiting.
+- **In, when in doubt.** An ambiguous message gets in with a note that lists the possible readings. Claude carries on with what is not affected and asks you at the end.
+- **Short messages skip the triage.** Three words or fewer (“stop”, “no, the other one”) get in at once: no model call, no wait.
+- **The line listens.** “Forget my question about Australia” takes that message out of the line, and nothing else happens.
 - **Off duty** when Claude isn’t working: your message is just a message.
+
+Measured on 29 labelled messages (`tests/eval.py`): no message that was needed now got held, every withdrawal hit the right message, and a triage takes about 4 seconds.
+
+## Commands
+
+| While Claude works, type | Between tasks | Effect |
+| --- | --- | --- |
+| `bouncer status` | `/bouncer:status` | Who is waiting, and today’s numbers. Answered at once, without the model. |
+| `bouncer release` | `/bouncer:release` | Lets everyone in now: Claude handles the waiting messages at its next step, then carries on. |
+| `bouncer clear` | `/bouncer:clear` | Empties the line without handing the messages over. |
+| `bouncer pause` · `bouncer resume` | `/bouncer:pause` · `/bouncer:resume` | Turns the triage off, then back on, for the current session. |
+
+Why two forms: Claude Code keeps slash commands until the task is over, while a plain message reaches bouncer at Claude’s next step.
 
 ## Install
 
@@ -99,16 +114,15 @@
 
 Works in the terminal, in VS Code and in the desktop app. You need Claude Code, signed in (tested with 2.1.331), and Python 3.9 or later on your PATH (`python3`, or `python` on Windows).
 
-## Settings
+## Options
 
-| Setting | Default | Effect |
+| Option | Default | Effect |
 | --- | --- | --- |
-| `MODEL` | `haiku` | The model that triages messages. |
-| `TIMEOUT` | `12` seconds | Past this, the triage gives up and the message gets in. |
-| `NOTE_MAX` | `300` characters | The longest note added for Claude. |
-| `KEEP_DAYS` | `7` days | Held messages of abandoned sessions are deleted after this. |
+| Triage model | `haiku` | `haiku` or `sonnet`. Haiku is the fastest and cheapest. |
+| Triage time limit | `12` seconds | From 4 to 30. Past this, the triage gives up and your message gets in. |
+| Language of notices | `auto` | `auto` (follows your system), `en` or `fr`. The triage explanations always follow the language of your message. |
 
-For now they are constants at the top of `hooks/bouncer.py`. Turn the plugin off with `claude plugin disable bouncer@bouncer`.
+Change them with `/plugin configure bouncer@bouncer`, or in `/config`. Turn the plugin off with `claude plugin disable bouncer@bouncer`.
 
 ## Behind the door
 
@@ -117,7 +131,8 @@ For now they are constants at the top of `hooks/bouncer.py`. Turn the plugin off
 - **Fails open.** Error, timeout or doubt: your message gets in as if bouncer weren’t there. The first failure of a session is shown, so a broken setup never goes unnoticed.
 - **Sends the minimum.** Only messages sent mid-task are triaged, by Claude Haiku through your own Claude Code account. With them goes a short extract of the recent work: your messages, Claude’s messages, and the names of the tools Claude used with a file path or a description. Never full commands, file contents or tool results. Nothing goes anywhere else.
 - **Writes the minimum.** One small state file per session, holding held messages in clear text until they are handed over (abandoned sessions are cleaned up after 7 days), and a log of decisions with no message content: `~/.claude/plugins/data/bouncer-bouncer/log.txt`.
-- **Light.** With nothing to sort, each hook takes about 60 ms. A triage is one small Haiku request of 4 to 8 seconds, counted in your usage.
+- **Light.** With nothing to sort, each hook takes about 60 ms. A triage is one small Haiku request of about 4 seconds, counted in your usage. The log stays under 256 KB.
+- **Knows when it is lost.** If Claude Code changes its transcript format and bouncer can no longer tell whether Claude is working, it says so once and lets every message through.
 - **Stays out of subagents.** Their messages and stops are left alone.
 
 ## Known limits
@@ -126,20 +141,25 @@ For now they are constants at the top of `hooks/bouncer.py`. Turn the plugin off
 - When held messages are handed over, Claude Code may show a “stop hook” notice. That is expected: it is how bouncer keeps Claude going.
 - To know whether Claude is working, bouncer reads Claude Code’s session transcript, whose format is not a public API. If bouncer misbehaves after a Claude Code update, turn it off.
 - Used for real on macOS. Linux and Windows are covered by the automated checks, not by real use yet.
-- Haiku sometimes adds a note to a message that was clear enough on its own.
+- A note still shows up now and then on a message that was clear enough on its own (2 or 3 out of 29 in the test set).
 
 <details>
 <summary><b>What’s in the repository</b></summary>
 
 ```
 hooks/           bouncer.py (the whole plugin) and hooks.json
-tests/check.py   logic checks against fake events, no model call (--live: three real triages)
+commands/        /bouncer:status, release, clear, pause, resume (answered by the hook)
+tests/
+  check.py       logic checks against fake events, no model call (--live: three real triages)
+  eval.py        triage quality on the labelled messages in cases.json
+  e2e.py         real Claude Code sessions with messages sent mid-task
 assets/          banner, mascot, README visuals and the maker's stamp
   mascot.py      draws the mascot in every pose
   readme.py      builds stickers.svg, flow.svg and the animated demo.svg, fonts embedded
   fonts/         Bricolage Grotesque and JetBrains Mono, with their OFL licenses
 .claude-plugin/  plugin and marketplace manifests, icon
-.github/         checks on Linux, macOS and Windows on every push
+.github/         checks on Linux and Windows on every push (macOS locally); a release for every vX.Y.Z tag
+CHANGELOG.md     what changed in each version
 ```
 
 </details>
@@ -149,9 +169,13 @@ assets/          banner, mascot, README visuals and the maker's stamp
 ```bash
 python3 tests/check.py            # logic, no model call
 python3 tests/check.py --live     # plus three real triages by Haiku
+python3 tests/eval.py             # triage quality on 29 labelled messages (about a minute)
+python3 tests/e2e.py              # real sessions with messages sent mid-task (a few minutes)
 python3 assets/mascot.py assets   # redraws the mascot
 python3 assets/readme.py          # rebuilds the README visuals
 ```
+
+Releasing: add the version to `CHANGELOG.md` and to `.claude-plugin/plugin.json`, then push a `vX.Y.Z` tag. GitHub runs the checks and publishes the release with its notes.
 
 ## Credits
 

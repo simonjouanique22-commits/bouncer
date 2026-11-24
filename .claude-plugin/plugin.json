@@ -1,9 +1,33 @@
 {
   "name": "bouncer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Decides whether the messages you send while Claude is working get in now or wait until the task is done, with a short note so they fit the work in progress.",
   "author": { "name": "Simon J." },
   "license": "MIT",
   "keywords": ["hooks", "interruptions", "workflow", "triage"],
-  "network": { "hosts": ["api.anthropic.com"] }
+  "network": { "hosts": ["api.anthropic.com"] },
+  "userConfig": {
+    "model": {
+      "type": "string",
+      "title": "Triage model",
+      "description": "The model that sorts your messages. Haiku is the fastest and cheapest.",
+      "options": ["haiku", "sonnet"],
+      "default": "haiku"
+    },
+    "timeout": {
+      "type": "number",
+      "title": "Triage time limit (seconds)",
+      "description": "Past this, the triage gives up and your message gets in as usual.",
+      "default": 12,
+      "min": 4,
+      "max": 30
+    },
+    "language": {
+      "type": "string",
+      "title": "Language of bouncer's notices",
+      "description": "auto follows your system language. The triage explanations always follow the language of your message.",
+      "options": ["auto", "en", "fr"],
+      "default": "auto"
+    }
+  }
 }
