@@ -1,6 +1,6 @@
 {
   "name": "bouncer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Decides whether the messages you send while Claude is working get in now or wait until the task is done, with a short note so they fit the work in progress.",
   "author": { "name": "Simon J." },
   "license": "MIT",
