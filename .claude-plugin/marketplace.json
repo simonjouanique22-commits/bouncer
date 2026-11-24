@@ -1,0 +1,12 @@
+{
+  "name": "bouncer",
+  "owner": { "name": "Simon J." },
+  "description": "bouncer: decides which of your messages may interrupt Claude while it works.",
+  "plugins": [
+    {
+      "name": "bouncer",
+      "source": "./",
+      "description": "Decides whether the messages you send while Claude is working get in now or wait until the task is done."
+    }
+  ]
+}
