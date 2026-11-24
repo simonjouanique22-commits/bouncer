@@ -1,12 +1,9 @@
 <p align="center">
-  <img src="assets/bouncer.svg" width="260" alt="bouncer, the mascot: a bouncer in a suit, arms crossed">
+  <img src="assets/banner.png" width="100%" alt="bouncer, a Claude Code plugin. Not on the list? Wait in line. “stay on Python 3.9, no match/case”: in. “actually, only from 1 to 15”: in. “what’s the capital of Australia?”: later.">
 </p>
 
-<h1 align="center">bouncer</h1>
-
 <p align="center">
-  <b>Not on the list? Wait in line.</b><br>
-  A Claude Code plugin that decides which of your messages may interrupt Claude while it works.
+  <b>bouncer</b> is a Claude Code plugin that decides which of your messages may interrupt Claude while it works.
 </p>
 
 <p align="center">
@@ -26,34 +23,46 @@ You hand Claude a long task. Two minutes in, a thought hits you. Send it now and
     <td align="center" valign="top" width="33%">
       <img src="assets/states/let-in.svg" width="150" alt="Thumbs up"><br>
       <b>Needed now: gets in</b><br>
-      <sub>A correction, a constraint, “stop”, an answer to Claude’s question. Claude gets it at its next step.</sub>
+      <sub>A correction, a constraint, “stop”, an answer to Claude’s question. Claude gets it at its next step.</sub><br><br>
+      <code>stay on Python 3.9, no match/case</code><br>
+      <sub>⚡ Let through now.</sub>
     </td>
     <td align="center" valign="top" width="33%">
       <img src="assets/states/held.svg" width="150" alt="Raised hand"><br>
       <b>Can wait: held</b><br>
-      <sub>A new task, an unrelated question. It waits outside instead of interrupting.</sub>
+      <sub>A new task, an unrelated question. It waits outside instead of interrupting.</sub><br><br>
+      <code>what’s the capital of Australia?</code><br>
+      <sub>⏸ Held until the task is done.</sub>
     </td>
     <td align="center" valign="top" width="33%">
       <img src="assets/states/handover.svg" width="150" alt="Reading the list"><br>
       <b>Task done: handed over</b><br>
-      <sub>Before Claude stops, bouncer hands it the held messages, and Claude takes care of them.</sub>
+      <sub>Before Claude stops, bouncer hands it the held messages, and Claude takes care of them.</sub><br><br>
+      <code>▶ handing over 1 held message</code><br>
+      <sub>“Canberra. And the refactor is done.”</sub>
     </td>
   </tr>
   <tr>
     <td align="center" valign="top" width="33%">
       <img src="assets/states/resent.svg" width="150" alt="Shrug"><br>
       <b>Changed your mind? Send it again</b><br>
-      <sub>A held message sent a second time gets straight in.</sub>
+      <sub>A held message sent a second time gets straight in.</sub><br><br>
+      <code>what’s the capital of Australia?</code> ×2<br>
+      <sub>⚡ Let through now: you sent it twice.</sub>
     </td>
     <td align="center" valign="top" width="33%">
       <img src="assets/states/error.svg" width="150" alt="Crooked glasses"><br>
       <b>Something broke: it gets in anyway</b><br>
-      <sub>If the triage fails, your message goes through as usual, and you are told once.</sub>
+      <sub>If the triage fails, your message goes through as usual, and you are told once.</sub><br><br>
+      <code>⚠ bouncer could not triage this message</code><br>
+      <sub>It went through as usual.</sub>
     </td>
     <td align="center" valign="top" width="33%">
       <img src="assets/states/idle.svg" width="150" alt="Coffee break"><br>
       <b>Claude isn’t working: off duty</b><br>
-      <sub>Messages sent between tasks are left alone.</sub>
+      <sub>Messages sent between tasks are left alone.</sub><br><br>
+      <code>thanks! now add tests</code><br>
+      <sub>A normal message, no triage.</sub>
     </td>
   </tr>
 </table>
