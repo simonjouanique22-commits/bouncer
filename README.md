@@ -98,14 +98,14 @@ Why two forms: Claude Code keeps slash commands until the task is over, while a 
 **1 · Add the plugin.** In Claude Code:
 
 ```
-/plugin install bouncer --marketplace simonvoltalis/bouncer
+/plugin install bouncer --marketplace simonjouanique22-commits/bouncer
 ```
 
 <details>
 <summary>Claude Code older than 2.1.275</summary>
 
 ```
-/plugin marketplace add simonvoltalis/bouncer
+/plugin marketplace add simonjouanique22-commits/bouncer
 /plugin install bouncer@bouncer
 ```
 </details>
